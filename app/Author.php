@@ -10,4 +10,9 @@ class Author extends Model
   {
     return $this->hasOne(AuthorDetail::class);
   }
+
+  public function posts()
+  {
+    return $this->hasMany(Post::class);
+  }
 }

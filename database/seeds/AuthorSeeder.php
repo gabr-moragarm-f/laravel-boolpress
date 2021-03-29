@@ -6,6 +6,8 @@ use App\Author;
 
 use App\AuthorDetail;
 
+use App\Post;
+
 use Faker\Generator as Faker;
 
 class AuthorSeeder extends Seeder
@@ -29,6 +31,13 @@ class AuthorSeeder extends Seeder
         $author_detail->phone_number = $faker->phoneNumber();
         $author_detail->avatar = 'https://picsum.photos/seed/' . rand(1, 1000) . '/200/300';
         $author->details()->save($author_detail);
+
+        for ($x=0; $x < rand(2,5); $x++) {
+          $post = new Post();
+          $post->title = $faker->catchPhrase();
+          $post->post_body = $faker->realText($maxNbChars = 200, $indexSize = 2);
+          $author->details()->save($post);
+        }
       }
     }
 
