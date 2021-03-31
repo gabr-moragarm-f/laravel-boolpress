@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Post;
 
+use App\Tag;
+
+use App\Author;
+
 class PostController extends Controller
 {
     /**
@@ -27,7 +31,11 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+      $authors = Author::all();
+
+      $tags = Tag::all();
+
+      return view('posts.create', compact('authors'), compact('tags'));
     }
 
     /**
@@ -38,7 +46,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $data = $request->all();
+      $post = new Post();
+      $post->author_id = $data['author_id'];
+      $post->title = $data['title'];
+      $post->post_body = $data['post_body'];
+      $post->save();
+
+      $post->tags()->attach($data['tags']);
+
+      $posts = Post::all();
+
+      return view('posts.index', compact('posts'));
     }
 
     /**
