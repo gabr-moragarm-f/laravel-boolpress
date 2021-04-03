@@ -10,6 +10,10 @@ use App\Tag;
 
 use App\Author;
 
+use App\Mail\NewPostMail;
+
+use Illuminate\Support\Facades\Mail;
+
 class PostController extends Controller
 {
     /**
@@ -54,6 +58,8 @@ class PostController extends Controller
       $post->save();
 
       $post->tags()->attach($data['tags']);
+
+      Mail::to('dewohok392@0pppp.com')->send(new NewPostMail($post));
 
       $posts = Post::all();
 
